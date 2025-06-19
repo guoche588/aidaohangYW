@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Tools Navigator - Discover the Best AI Resources</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --dark: #0f172a;
+            --darker: #020617;
+            --light: #f1f5f9;
+            --gray: #94a3b8;
+            --success: #10b981;
+            --card-bg: rgba(15, 23, 42, 0.7);
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, var(--darker), var(--dark));
+            color: var(--light);
+            min-height: 100vh;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            padding: 40px 20px;
+            margin-bottom: 30px;
+        }
+        
+        .logo {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            background: linear-gradient(90deg, var(--primary), #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: inline-block;
+        }
+        
+        .subtitle {
+            color: var(--gray);
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto 30px;
+        }
+        
+        .search-container {
+            max-width: 600px;
+            margin: 0 auto 40px;
+            position: relative;
+        }
+        
+        .search-box {
+            width: 100%;
+            padding: 15px 20px;
+            border-radius: 50px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            background: rgba(15, 23, 42, 0.5);
+            color: white;
+            font-size: 1rem;
+            backdrop-filter: blur(10px);
+            transition: var(--transition);
+        }
+        
+        .search-box:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.3);
+        }
+        
+        .search-icon {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray);
+        }
+        
+        .category-header {
+            display: flex;
+            align-items: center;
+            margin: 40px 0 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .category-icon {
+            background: var(--primary-dark);
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+        }
+        
+        .category-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+        
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 50px;
+        }
+        
+        .tool-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 25px;
+            transition: var(--transition);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+        
+        .tool-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(99, 102, 241, 0.3);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+        
+        .tool-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .tool-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #4f46e5, #7c3aed);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-size: 20px;
+        }
+        
+        .tool-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+        
+        .tool-desc {
+            color: var(--gray);
+            margin-bottom: 20px;
+            flex-grow: 1;
+        }
+        
+        .tool-link {
+            display: inline-block;
+            padding: 10px 20px;
+            background: rgba(99, 102, 241, 0.1);
+            color: var(--primary);
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+            text-align: center;
+        }
+        
+        .tool-link:hover {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .popular-badge {
+            display: inline-block;
+            background: var(--success);
+            color: white;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            margin-left: 10px;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--gray);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            margin-top: 30px;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .footer-links a {
+            color: var(--gray);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        
+        .footer-links a:hover {
+            color: var(--primary);
+        }
+        
+        @media (max-width: 768px) {
+            .tools-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .logo {
+                font-size: 2rem;
+            }
+            
+            .subtitle {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">AI Tools Navigator</div>
+            <p class="subtitle">Your curated directory of artificial intelligence tools, platforms, and resources from around the globe</p>
+            
+            <div class="search-container">
+                <input type="text" class="search-box" placeholder="Search AI tools...">
+                <i class="fas fa-search search-icon"></i>
+            </div>
+        </header>
+        
+        <main>
+            <!-- AI Chatbots & Assistants -->
+            <div class="category-header">
+                <div class="category-icon">
+                    <i class="fas fa-comments"></i>
+                </div>
+                <h2 class="category-title">AI Chatbots & Assistants</h2>
+            </div>
+            
+            <div class="tools-grid">
+                <div class="tool-card">
+                    <div class="tool-header">
+                        <div class="tool-icon">
+                            <i class="fab fa-openai"></i>
+                        </div>
+                        <h3 class="tool-name">ChatGPT <span class="popular-badge">Popular</span></h3>
+                    </div>
+                    <p class="tool-desc">Advanced AI chatbot by OpenAI capable of natural conversation and task assistance.</p>
+                    <a href="https://chatgpt.com?utm_source=toolify" class="tool-link" target="_blank">Visit Website</a>
+                </div>
+                
+                <div class="tool-card">
+                    <div class="tool-header">
+                        <div class="tool-icon">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <h3 class="tool-name">Perplexity AI</h3>
+                    </div>
+                    <p class="tool-desc">AI-powered answer engine that delivers accurate answers backed by sources.</p>
+                    <a href="https://www.perplexity.ai?utm_source=toolify" class="tool-link" target="_blank">Visit Website</a>
+                </div>
+                
+                <div class="tool-card">
+                    <div class="tool-header">
+                        <div class="tool-icon">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <h3 class="tool-name">Claude</h3>
+                    </div>
+                    <p class="tool-desc">Next-generation AI assistant focused on helpful, honest, and harmless interactions.</p>
+                    <a href="https://www.anthropic.com" class="tool-link" target="_blank">Visit Website</a>
+                </div>
+            </div>
+            
+            <!-- AI Platforms & Research -->
+            <div class="category-header">
+                <div class="category-icon">
+                    <i class="fas fa-flask"></i>
+                </div>
+                <h2 class="category-title">AI Platforms & Research</h2>
+            </div>
+            
+            <div class="tools-grid">
+                <div class="tool-card">
+                    <div class="tool-header">
+                        <div class="tool-icon">
+                            <i class="fas fa-rocket"></i>
+                        </div>
+                        <h3 class="tool-name">OpenAI <span class="popular-badge">Popular</span></h3>
+                    </div>
+                    <p class="tool-desc">AI research and deployment company creating safe and beneficial artificial general intelligence.</p>
+                    <a href="https://openai.com?utm_source=toolify" class="tool-link" target="_blank">Visit Website</a>
+                </div>
+                
+                <div class="tool-card">
+                    <div class="tool-header">
+                        <div class="tool-icon">
+                            <i class="fab fa-google"></i>
+                        </div>
+                        <h3 class="tool-name">Google AI</h3>
+                    </div>
+                    <p class="tool-desc">Google's AI research division focusing on advancing the state of the art in AI.</p>
+                    <a href="https://ai.google/" class="tool-link" target="_blank">Visit Website</a>
+                </div>
+                
+                <div class="tool-card">
+                    <div class="tool-header">
+                        <div class="tool-icon">
+                            <i class="fas fa-project-diagram"></i>
+                        </div>
+                        <h3 class="tool-name">Hugging Face</h3>
+                    </div>
+                    <p class="tool-desc">Open-source platform for natural language processing with thousands of pre-trained models.</p>
+                    <a href="https://huggingface.co" class="tool-link" target="_blank">Visit Website</a>
+                </div>
+            </div>
+            
+            <!-- Creative AI Tools -->
+            <div class="category-header">
+                <div class="category-icon">
+                    <i class="fas fa-paint-brush"></i>
+                </div>
+                <h2 class="category-title">Creative AI Tools</h2>
+            </div>
+            
+            <div class="tools-grid">
+                <div class="tool-card">
+                    <div class="tool-header">
+                        <div class="tool-icon">
+                            <i class="fas fa-image"></i>
+                        </div>
+                        <h3 class="tool-name">Adobe Firefly <span class="popular-badge">New</span></h3>
+                    </div>
+                    <p class="tool-desc">Creative generative AI models built for commercial use integrated across Adobe products.</p>
+                    <a href="https://adobe.com?utm_source=toolify" class="tool-link" target="_blank">Visit Website</a>
+                </div>
+                
+                <div class="tool-card">
+                    <div class="tool-header">
+                        <div class="tool-icon">
+                            <i class="fas fa-magic"></i>
+                        </div>
+                        <h3 class="tool-name">Midjourney</h3>
+                    </div>
+                    <p class="tool-desc">Independent research lab exploring new mediums of thought and expanding imagination.</p>
+                    <a href="https://www.midjourney.com" class="tool-link" target="_blank">Visit Website</a>
+                </div>
+                
+                <div class="tool-card">
+                    <div class="tool-header">
+                        <div class="tool-icon">
+                            <i class="fas fa-video"></i>
+                        </div>
+                        <h3 class="tool-name">Runway ML</h3>
+                    </div>
+                    <p class="tool-desc">Next-generation content creation suite powered by AI for video editing and generation.</p>
+                    <a href="https://runwayml.com" class="tool-link" target="_blank">Visit Website</a>
+                </div>
+            </div>
+            
+            <!-- Productivity & Workflow -->
+            <div class="category-header">
+                <div class="category-icon">
+                    <i class="fas fa-tasks"></i>
+                </div>
+                <h2 class="category-title">Productivity & Workflow</h2>
+            </div>
+            
+            <div class="tools-grid">
+                <div class="tool-card">
+                    <div class="tool-header">
+                        <div class="tool-icon">
+                            <i class="fas fa-layer-group"></i>
+                        </div>
+                        <h3 class="tool-name">Notion AI <span class="popular-badge">Popular</span></h3>
+                    </div>
+                    <p class="tool-desc">Integrated AI assistant within Notion to help with writing, summarization, and task management.</p>
+                    <a href="https://www.notion.so?utm_source=toolify" class="tool-link" target="_blank">Visit Website</a>
+                </div>
+                
+                <div class="tool-card">
+                    <div class="tool-header">
+                        <div class="tool-icon">
+                            <i class="fas fa-copy"></i>
+                        </div>
+                        <h3 class="tool-name">Jasper</h3>
+                    </div>
+                    <p class="tool-desc">AI content platform for businesses to create marketing copy, blogs, and social content.</p>
+                    <a href="https://www.jasper.ai" class="tool-link" target="_blank">Visit Website</a>
+                </div>
+                
+                <div class="tool-card">
+                    <div class="tool-header">
+                        <div class="tool-icon">
+                            <i class="fas fa-microphone-alt"></i>
+                        </div>
+                        <h3 class="tool-name">Otter.ai</h3>
+                    </div>
+                    <p class="tool-desc">AI-powered meeting assistant that records audio, writes notes, and captures action items.</p>
+                    <a href="https://otter.ai" class="tool-link" target="_blank">Visit Website</a>
+                </div>
+            </div>
+            
+            <!-- Developer Tools -->
+            <div class="category-header">
+                <div class="category-icon">
+                    <i class="fas fa-code"></i>
+                </div>
+                <h2 class="category-title">Developer Tools</h2>
+            </div>
+            
+            <div class="tools-grid">
+                <div class="tool-card">
+                    <div class="tool-header">
+                        <div class="tool-icon">
+                            <i class="fas fa-terminal"></i>
+                        </div>
+                        <h3 class="tool-name">GitHub Copilot</h3>
+                    </div>
+                    <p class="tool-desc">AI pair programmer that helps you write better code with context-aware suggestions.</p>
+                    <a href="https://github.com/features/copilot" class="tool-link" target="_blank">Visit Website</a>
+                </div>
+                
+                <div class="tool-card">
+                    <div class="tool-header">
+                        <div class="tool-icon">
+                            <i class="fas fa-cloud"></i>
+                        </div>
+                        <h3 class="tool-name">Replicate</h3>
+                    </div>
+                    <p class="tool-desc">Run and scale open-source machine learning models with a cloud API.</p>
+                    <a href="https://replicate.com" class="tool-link" target="_blank">Visit Website</a>
+                </div>
+                
+                <div class="tool-card">
+                    <div class="tool-header">
+                        <div class="tool-icon">
+                            <i class="fas fa-wrench"></i>
+                        </div>
+                        <h3 class="tool-name">LangChain</h3>
+                    </div>
+                    <p class="tool-desc">Framework for developing applications powered by language models.</p>
+                    <a href="https://www.langchain.com" class="tool-link" target="_blank">Visit Website</a>
+                </div>
+            </div>
+        </main>
+        
+        <footer>
+            <p>AI Tools Navigator - Curated with precision for the AI community</p>
+            <div class="footer-links">
+                <a href="#">About</a>
+                <a href="#">Contribute</a>
+                <a href="#">Privacy Policy</a>
+                <a href="#">Contact</a>
+            </div>
+            <p>© 2023 AI Tools Navigator. All rights reserved.</p>
+        </footer>
+    </div>
+    
+    <script>
+        // Simple search functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchBox = document.querySelector('.search-box');
+            const toolCards = document.querySelectorAll('.tool-card');
+            
+            searchBox.addEventListener('input', function() {
+                const searchTerm = this.value.toLowerCase();
+                
+                toolCards.forEach(card => {
+                    const toolName = card.querySelector('.tool-name').textContent.toLowerCase();
+                    const toolDesc = card.querySelector('.tool-desc').textContent.toLowerCase();
+                    
+                    if (toolName.includes(searchTerm) || toolDesc.includes(searchTerm)) {
+                        card.style.display = 'flex';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
